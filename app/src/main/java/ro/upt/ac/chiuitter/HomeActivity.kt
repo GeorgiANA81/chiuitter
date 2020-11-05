@@ -23,7 +23,9 @@ class HomeActivity : AppCompatActivity() {
     private fun shareChiuit(text: String) {
         val sendIntent = Intent().apply {
             // TODO 1: Configure to support text sending/sharing and then attach the text as intent's extra.
-
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
 
 
         }
@@ -38,11 +40,11 @@ class HomeActivity : AppCompatActivity() {
      */
     private fun composeChiuit() {
         // TODO 2: Create an explicit intent which points to ComposeActivity.
-
+        val intent = Intent(this,ComposeActivity::class.java)
 
         // TODO 3: Start a new activity with the previously defined intent.
         // We start a new activity that we expect to return the acquired text as the result.
-
+        startActivityForResult(intent, COMPOSE_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -55,11 +57,13 @@ class HomeActivity : AppCompatActivity() {
     private fun extractText(data: Intent?) {
         data?.let {
             // TODO 5: Extract the text from result intent.
-
+            val text = data.getStringExtra(ComposeActivity.EXTRA_TEXT)
 
             // TODO 6: Check if text is not null or empty, then set the new "chiuit" content.
-
-
+            if (!chiuitText.isNullOrEmpty())
+            {
+                txv_content.text = chiuitText
+            }
         }
     }
 
