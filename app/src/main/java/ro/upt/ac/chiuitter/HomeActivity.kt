@@ -14,14 +14,21 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.view_home)
-
+        fab_add.setOnClickListener{composeChiuit()}
         initList()
     }
 
     private fun initList() {
         val chiuitList = dummyChiuitStore.getAllData()
 
+        val onClick:(Chiuit,Int)->Unit={chiuit,i->shareChiuit(chiuit.description)}
+
         TODO("7. Instantiate the adapter, then setup the recycler view list")
+        listAdapter = ChiuitRecyclerViewAdapter(chiuitList = chiuitList.toMutableList(), onClick = onClick)
+        rv_chiuit_list.apply{
+            layoutManager = LinearLayoutManager(this@HomeActivity)
+            adapter = listAdapter
+        }
     }
 
     /*
